@@ -65,8 +65,8 @@ if __name__ == "__main__":
 
     task_description()
 
-    should_Continue = True
-    while should_Continue:
+    should_continue = True
+    while should_continue:
         escape_room = randint(1, 7)
         print(f"*Escape room is: {escape_room}*")
 
@@ -83,39 +83,33 @@ if __name__ == "__main__":
                     chosen_room = int(input("Which room from 1st to 7th do you want to enter? "))
                     if chosen_room < 1 and chosen_room > 7: 
                         print("There is no such room. Check your input and try again: ")
-                    else:
-                        if chosen_room != escape_room:
-                            print("\n*You chose the wrong room but you were quick enough to leave before you got into the danger lurking behind those doors*")
-                        elif chosen_room == escape_room:
-                            print("\n***You have escaped the house! RUN AND NEVER COME BACK***")
-                            break
-                    entrances_left = entrances_left - 1
-
-                elif entrances_left == 1:
-                    entrances_left = entrances_left - 1
-                    print("*It is your last try to enter wrong room and stay alive*")
-                    chosen_room = input("Which room from 1st to 7th do you want to enter? ")
-                    if chosen_room < 1 or chosen_room > 7: 
-                        print("There is no such room. Check your input and try again: ")
                     elif chosen_room != escape_room:
                         print("\n*You chose the wrong room but you were quick enough to leave before you got into the danger lurking behind those doors*")
                     elif chosen_room == escape_room:
                         print("\n***You have escaped the house! RUN AND NEVER COME BACK***")
-                    break
-
-                elif entrances_left == 0:
-                    print("*If you choose wrong room, you die*")
-                    chosen_room = input("Which room from 1st to 7th do you want to enter? ")
-                    if chosen_room != escape_room:
-                        print("\n***GAME OVER! You chose the wrong room and died***")
+                        should_continue = False
                         break
+                    
+
+                    entrances_left = entrances_left - 1
+                    
+                elif entrances_left == 1:
+                    print("*If you choose wrong room, you die*")
+                    chosen_room = int(input("Which room from 1st to 7th do you want to enter? "))
+                    if chosen_room != escape_room and chosen_room >= 1 and chosen_room <= 7:
+                        print("\n***GAME OVER! You chose the wrong room and died***")
                     elif chosen_room == escape_room:
                         print("\n***You have escaped the house! RUN AND NEVER COME BACK***")
+                    else:
+                        print("\nThere is no such room. Check your input and try again:")
+                        continue
+
+                    should_continue = False
                     break
 
             elif choice == 2:
-                descriptions_left = descriptions_left - 1
-                if descriptions_left == 2:
+                
+                if descriptions_left == 2 or descriptions_left ==3:
                     chosen_room_for_description = int(input("About which room from 1st to 7th do you want to get a description? "))
                     if chosen_room_for_description == escape_room:
                         print("\nNo one saw a man returning from this room.")
@@ -124,6 +118,9 @@ if __name__ == "__main__":
                     else:
                         print("\nThere is no such room. Check your input and try again:")
                         chosen_room_for_description = int(input("About which room from 1st to 7th do you want to get a description? "))
+
+                    descriptions_left = descriptions_left - 1
+
                 elif descriptions_left == 1:
                     print("*This is your last description about a room*")
                     chosen_room_for_description = int(input("About which room from 1st to 7th do you want to get a description? "))
@@ -134,12 +131,16 @@ if __name__ == "__main__":
                     else:
                         print("\nThere is no such room. Check your input and try again:")
                         chosen_room_for_description = int(input("About which room from 1st to 7th do you want to get a description? "))
+                    descriptions_left = descriptions_left - 1
+
+                elif descriptions_left == 0:
+                    print("\n*You have used all 3 descriptions*")
                 
             elif choice == 3:
                 print(f"Entrances left: {entrances_left}")
                 print(f"Descriptions left: {descriptions_left}")
 
-            elif choice != 1 or choice != 2 or choice != 3:
+            else:
                 print("There was no such choice, check your input and try again:")
                 choice = input("\nEnter your choice: ")
                 print(choice)
